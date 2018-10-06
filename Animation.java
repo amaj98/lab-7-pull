@@ -1,6 +1,8 @@
 //T Harvey
 //based loosely on http://www.java2s.com/Code/JavaAPI/java.awt/GraphicsdrawImageImageimgintxintyImageObserverob.htm
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -68,38 +70,36 @@ public class Animation extends JPanel {
     //Make frame, loop on repaint and wait
     public static void main(String[] args) {
     	JFrame frame = new JFrame();
-    	frame.getContentPane().add(new Animation());
-    	///////////////////////////////////
-    	/*JButton b1 = new JButton("Start/Stop");
-    	b1.setPreferredSize(new Dimension(40,40));
-    	JButton b2 = new JButton("Change direction");
-    	frame.getContentPane().add(b1);*/
-    	//////////////////////////////////
-    	frame.setBackground(Color.gray);
+    	////////////////NEW/CHANGED STUFF
+    	Container pane = frame.getContentPane();
+    	pane.setLayout(new BorderLayout());
+    	pane.add(new Animation(), BorderLayout.CENTER);
+    	pane.setBackground(Color.gray);
+    	///////////////END NEW/CHANGED STUFF
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
+    	///////////////////////////NEW STUFF
+		JPanel panel = new JPanel();
+		JButton b1 = new JButton("Start/Stop");
+		b1.addActionListener(new ActionListener() {
+			//Action Listeners will automatically call action Performed method when the button is pushed
+			public void actionPerformed(ActionEvent e) {
+				// ADD CODE FOR START/STOP BUTTON HERE
+				System.out.println("Start/Stop Button Working");
+			}
+		});
+		JButton b2 = new JButton("Change direction");
+		b2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// ADD CODE FOR CHANGE DIRECTION BUTTON HERE
+				System.out.println("Change Direction Button Working");
+			}
+		});
+		panel.add(b1);
+		panel.add(b2);
+		pane.add(panel, BorderLayout.PAGE_START);
+		/////////////////////////END NEW STUFF
     	frame.setVisible(true);
-    	///////////////////////////New Stuff
-    	JPanel panel = new JPanel();
-    	JButton b1 = new JButton("Start/Stop");
-    	b1.addActionListener(
-    			new ActionListener() {
-    				public void actionPerformed(ActionEvent e) {
-    					// ADD CODE FOR START/STOP BUTTON HERE
-    				}
-    			}
-    		);
-    	JButton b2 = new JButton("Change direction");
-    	b2.addActionListener(
-    			new ActionListener() {
-    				public void actionPerformed(ActionEvent e) {
-    					//	ADD CODE FOR CHANGE DIRECTION BUTTON HERE
-    				}
-    			});
-    	frame.getContentPane().add(panel);
-    	panel.add(b1);
-    	panel.add(b2);
-    	/////////////////////////////End new stuff
     	for(int i = 0; i < 1000; i++){
     		frame.repaint();
     		try {
