@@ -7,9 +7,7 @@
  * use proper images for direction
  * load images for all direction (an image should only be loaded once!!! why?)
  **/
- import java.awt.Dimension;
- import java.awt.EventQueue;
- import java.awt.event.ActionEvent;
+
  import java.awt.Color;
  import java.awt.Graphics;
  import java.awt.image.BufferedImage;
@@ -18,15 +16,8 @@
  import javax.imageio.ImageIO;
  import javax.swing.JFrame;
  import javax.swing.JPanel;
- import javax.swing.AbstractAction;
- import javax.swing.Action;
- import javax.swing.Timer;
- import javax.swing.JButton;
- import javax.swing.ImageIcon;
- import java.awt.event.ActionListener;
 
-
- public class View extends JFrame{
+ public class View extends JPanel{
    private final int frameCount = 10;
    private int picNum = 0;
    final static int frameWidth = 500;
@@ -34,57 +25,20 @@
    final static int imgWidth = 165;
    final static int imgHeight = 165;
    private BufferedImage[] pics;
-   ImageIcon stopicon = createImageIcon("images/icons/stop.png");
 
    private int xloc = 0;
    private int yloc = 0;
    private Direction d;
-   private int go = 1;
 
    public View(){
      d = d.SOUTHEAST;
-     JPanel drawPanel = new JPanel();
-     /*
-     drawPanel.getContentPane().add(this);
-     drawPanel.setBackground(Color.gray);
-     drawPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     drawPanel.setSize(frameWidth, frameHeight);
-     drawPanel.pack();
-     drawPanel.setVisible(true);
-     */
-     JFrame frame = new JFrame("Animation Controls");
-     //Action drawAction;
-     JButton stop = new JButton(stopicon);
-
-     /*
-     drawAction = new AbstractAction(){
-       public void actionPerformed(ActionEvent e){
-         if(go == 1){
-           drawPanel.repaint();
-         }
-       }
-     };
-     */
-
-     stop.addActionListener(new ActionListener() {
-       public void actionPerformed(ActionEvent e){
-         if(go == 1){
-           go = 0;
-         }
-         else{
-           go = 1;
-         }
-       }
-     });
-
-     frame.add(stop);
-     frame.setSize(400,400);
+     JFrame frame = new JFrame();
+     frame.getContentPane().add(this);
+     frame.setBackground(Color.gray);
+     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     frame.setSize(frameWidth, frameHeight);
+     frame.pack();
      frame.setVisible(true);
-     add(drawPanel);
-     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     setSize(800, 800);
-     setVisible(true);
-     pack();
 
 
      int numpics = 8; //number of images
@@ -165,21 +119,18 @@
     // TODO: Change this method so you can load other orc animation bitmaps
   }
 
-  int update(int x, int y, Direction d, int go){
+  void update(int x, int y, Direction d){
     //System.out.println(x);
-    //this.go = go;
-    if(go == 1){
-      setXloc(x);
-      setYloc(y);
-      setD(d);
-      this.repaint();
-      try {
-      Thread.sleep(100);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      }
+    setXloc(x);
+    setYloc(y);
+    setD(d);
+    this.repaint();
+    try {
+    Thread.sleep(100);
+  } catch (InterruptedException e) {
+    e.printStackTrace();
     }
-    return this.go;
+
   }
 
   public void paint(Graphics g){
@@ -209,14 +160,5 @@
     else if(d.getName() == "north"){
       g.drawImage(pics[picNum+70], xloc, yloc, Color.gray, this);
     }
-  }
-  private static ImageIcon createImageIcon(String path) {
-     java.net.URL imgURL = Animation4Thread.class.getResource(path);
-     if (imgURL != null) {
-        return new ImageIcon(imgURL);
-     } else {
-        System.err.println("Couldn't find file: " + path);
-        return null;
-     }
   }
 }

@@ -5,6 +5,7 @@ public class Controller {
 
 	private Model model;
 	private View view;
+	private int go = 1;
 
 	public Controller(){
 		view = new View();
@@ -15,10 +16,10 @@ public class Controller {
 	public void start(){
 		for(int i = 0; i < 5000; i++)
 		{
-			//increment the x and y coordinates, alter direction if necessary
-			model.updateLocationAndDirection();
-			//update the view
-			view.update(model.getX(), model.getY(), model.getDirect());
+			model.updateLocationAndDirection(go);
+			System.out.println(model.getGo());
+			//System.out.println(go);
+			go = view.update(model.getX(), model.getY(), model.getDirect(),model.getGo());
 		}
 	}
 }

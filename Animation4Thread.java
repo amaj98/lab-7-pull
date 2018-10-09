@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
 
 
 public class Animation4Thread extends JFrame{
@@ -40,13 +40,6 @@ public class Animation4Thread extends JFrame{
 
     public Animation4Thread() {
 			JButton stop = new JButton(stopicon);
-    	drawAction = new AbstractAction(){
-    		public void actionPerformed(ActionEvent e){
-					if(go == 1){
-						drawPanel.repaint();
-					}
-    		}
-    	};
 			stop.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e){
 					if(go == 1){
