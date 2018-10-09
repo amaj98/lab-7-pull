@@ -175,9 +175,10 @@
 
   void update(int x, int y, Direction d, int go){
     //System.out.println(x);
-    this.go = go;
+
     setD(d);
-    if(go == 1){
+    this.go = go;
+    //if(go == 1){
       setXloc(x);
       setYloc(y);
       this.repaint();
@@ -186,7 +187,7 @@
     } catch (InterruptedException e) {
       e.printStackTrace();
       }
-    }
+    //}
   }
 
   public void paint(Graphics g){
