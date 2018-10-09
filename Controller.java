@@ -1,15 +1,48 @@
 /**
  * Do not modify this file without permission from your TA.
  **/
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class Controller {
 
 	private Model model;
 	private View view;
 	private int go = 1;
 	private Direction d;
+	private int jump = 0;
+	private int fire = 0;
 
 	public Controller(){
+
+		KeyListener input = new KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent event){
+				if(event.getKeyCode() == KeyEvent.VK_J){
+					jump = 1;
+					System.out.println("jumped");
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_F){
+					fire = 1;
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent event){
+				if(event.getKeyCode() == KeyEvent.VK_J){
+					jump = 0;
+				}
+				else if(event.getKeyCode() == KeyEvent.VK_F){
+					fire = 0;
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent event){
+
+			}
+		};
 		view = new View();
+		view.addKeyListener(input);
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 	}
 

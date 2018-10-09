@@ -126,6 +126,9 @@
    void setD(Direction d){
      this.d = d;
    }
+   void setGo(int go){
+     this.go = go;
+   }
    int getGo(){
      return this.go;
    }
@@ -177,7 +180,7 @@
     //System.out.println(x);
 
     setD(d);
-    this.go = go;
+    setGo(go);
     //if(go == 1){
       setXloc(x);
       setYloc(y);
@@ -191,40 +194,42 @@
   }
 
   public void paint(Graphics g){
-    super.paint(g);
-    picNum = (picNum + 1) % frameCount;
-    if(d.getName() == "southeast"){
-      g.drawImage(pics[picNum+0], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "northwest"){
-      g.drawImage(pics[picNum+10], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "northeast"){
-      g.drawImage(pics[picNum+20], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "southwest"){
-      g.drawImage(pics[picNum+30], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "east"){
-      g.drawImage(pics[picNum+40], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "west"){
-      g.drawImage(pics[picNum+50], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "south"){
-      g.drawImage(pics[picNum+60], xloc, yloc, Color.gray, this);
-    }
-    else if(d.getName() == "north"){
-      g.drawImage(pics[picNum+70], xloc, yloc, Color.gray, this);
+    if(go == 1){
+      super.paint(g);
+      picNum = (picNum + 1) % frameCount;
+      if(d.getName() == "southeast"){
+        g.drawImage(pics[picNum+0], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "northwest"){
+        g.drawImage(pics[picNum+10], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "northeast"){
+        g.drawImage(pics[picNum+20], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "southwest"){
+        g.drawImage(pics[picNum+30], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "east"){
+        g.drawImage(pics[picNum+40], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "west"){
+        g.drawImage(pics[picNum+50], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "south"){
+        g.drawImage(pics[picNum+60], xloc, yloc, Color.gray, this);
+      }
+      else if(d.getName() == "north"){
+        g.drawImage(pics[picNum+70], xloc, yloc, Color.gray, this);
+      }
     }
   }
-  private static ImageIcon createImageIcon(String path) {
-     java.net.URL imgURL = Animation4Thread.class.getResource(path);
-     if (imgURL != null) {
-        return new ImageIcon(imgURL);
-     } else {
-        System.err.println("Couldn't find file: " + path);
-        return null;
-     }
-  }
+    private static ImageIcon createImageIcon(String path) {
+       java.net.URL imgURL = Animation4Thread.class.getResource(path);
+       if (imgURL != null) {
+          return new ImageIcon(imgURL);
+       } else {
+          System.err.println("Couldn't find file: " + path);
+          return null;
+       }
+    }
 }

@@ -24,7 +24,7 @@ public class Model{
   private int imgHeight;
 
   private Direction d;
-  private int go = 1;
+  private int go;
 
 
   public Model(int width, int height, int imgWidth, int imgHeight){
