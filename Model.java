@@ -50,10 +50,15 @@ public class Model{
   public int getGo(){
     return this.go;
   }
-
-  public void updateLocationAndDirection(int go){
+  public void setGo(int go){
     this.go = go;
-    System.out.println(this.go);
+  }
+
+  public void setDirect(Direction d){
+    this.d = d;
+  }
+
+  public void updateLocationAndDirection(){
     if(go == 1){
       //System.out.println("x:" + xloc);
       //System.out.println("y:" + yloc);

@@ -24,6 +24,7 @@
  import javax.swing.JButton;
  import javax.swing.ImageIcon;
  import java.awt.event.ActionListener;
+ import java.awt.GridLayout;
 
 
  public class View extends JFrame{
@@ -35,6 +36,8 @@
    final static int imgHeight = 165;
    private BufferedImage[] pics;
    ImageIcon stopicon = createImageIcon("images/icons/stop.png");
+   ImageIcon diricon = createImageIcon("images/icons/diricon.png");
+   GridLayout layout = new GridLayout(1,2);
 
    private int xloc = 0;
    private int yloc = 0;
@@ -53,18 +56,8 @@
      drawPanel.setVisible(true);
      */
      JFrame frame = new JFrame("Animation Controls");
-     //Action drawAction;
      JButton stop = new JButton(stopicon);
-
-     /*
-     drawAction = new AbstractAction(){
-       public void actionPerformed(ActionEvent e){
-         if(go == 1){
-           drawPanel.repaint();
-         }
-       }
-     };
-     */
+     JButton change = new JButton(diricon);
 
      stop.addActionListener(new ActionListener() {
        public void actionPerformed(ActionEvent e){
@@ -77,12 +70,21 @@
        }
      });
 
+     change.addActionListener(new ActionListener() {
+       public void actionPerformed(ActionEvent e){
+         d = d.SOUTHEAST;
+       }
+     });
+     frame.setLayout(layout);
+     layout.addLayoutComponent("stop",stop);
+     layout.addLayoutComponent("changedir",change);
      frame.add(stop);
+     frame.add(change);
      frame.setSize(400,400);
      frame.setVisible(true);
      add(drawPanel);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     setSize(800, 800);
+     drawPanel.setSize(800, 800);
      setVisible(true);
      pack();
 
@@ -112,6 +114,9 @@
    int getImageHeight(){
      return this.imgHeight;
    }
+   Direction getDirect(){
+     return this.d;
+   }
    void setXloc(int x){
      this.xloc = x;
    }
@@ -120,6 +125,9 @@
    }
    void setD(Direction d){
      this.d = d;
+   }
+   int getGo(){
+     return this.go;
    }
    private BufferedImage createImage(int picnum){
   //function now takes an int which changes the picture it reads in
@@ -165,13 +173,13 @@
     // TODO: Change this method so you can load other orc animation bitmaps
   }
 
-  int update(int x, int y, Direction d, int go){
+  void update(int x, int y, Direction d, int go){
     //System.out.println(x);
-    //this.go = go;
+    this.go = go;
+    setD(d);
     if(go == 1){
       setXloc(x);
       setYloc(y);
-      setD(d);
       this.repaint();
       try {
       Thread.sleep(100);
@@ -179,7 +187,6 @@
       e.printStackTrace();
       }
     }
-    return this.go;
   }
 
   public void paint(Graphics g){

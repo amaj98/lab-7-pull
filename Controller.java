@@ -6,6 +6,7 @@ public class Controller {
 	private Model model;
 	private View view;
 	private int go = 1;
+	private Direction d;
 
 	public Controller(){
 		view = new View();
@@ -14,12 +15,17 @@ public class Controller {
 
         //run the simulation
 	public void start(){
+		d = d.SOUTHEAST;
 		for(int i = 0; i < 5000; i++)
 		{
-			model.updateLocationAndDirection(go);
-			System.out.println(model.getGo());
+			d = view.getDirect();
+			go = view.getGo();
+			model.setDirect(d);
+			model.setGo(go);
+			model.updateLocationAndDirection();
+			//System.out.println(model.getGo());
 			//System.out.println(go);
-			go = view.update(model.getX(), model.getY(), model.getDirect(),model.getGo());
+			view.update(model.getX(), model.getY(), model.getDirect(),model.getGo());
 		}
 	}
 }
