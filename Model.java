@@ -24,6 +24,7 @@ public class Model{
   private int imgHeight;
 
   private Direction d;
+  private Act action = Act.FORWARD;
   private int go;
 
 
@@ -59,7 +60,7 @@ public class Model{
   }
 
   public void updateLocationAndDirection(){
-    if(go == 1){
+    if(action==Act.FORWARD || action==Act.JUMP){
       //System.out.println("x:" + xloc);
       //System.out.println("y:" + yloc);
       if(xIncr>0 && yIncr>0){
@@ -129,5 +130,9 @@ public class Model{
         }
       }
     }
+  }
+
+  void setAction(Act a) {
+	  this.action = a;
   }
 }

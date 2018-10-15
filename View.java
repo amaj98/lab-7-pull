@@ -237,28 +237,28 @@ import javax.swing.JButton;
     	  step = Act.FIRE.getNumPics();
       }
       
-      if(d.getName() == "southeast"){
+      if(d.getName() == "northwest"){
         g.drawImage(picArray[picNum+step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "northwest"){
+      else if(d.getName() == "northeast"){
         g.drawImage(picArray[picNum+2*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "northeast"){
+      else if(d.getName() == "southwest"){
         g.drawImage(picArray[picNum+3*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "southwest"){
+      else if(d.getName() == "southeast"){
         g.drawImage(picArray[picNum+4*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "east"){
+      else if(d.getName() == "west"){
         g.drawImage(picArray[picNum+5*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "west"){
+      else if(d.getName() == "east"){
         g.drawImage(picArray[picNum+6*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "south"){
+      else if(d.getName() == "north"){
         g.drawImage(picArray[picNum+7*step], xloc, yloc, Color.gray, this);
       }
-      else if(d.getName() == "north"){
+      else if(d.getName() == "south"){
         g.drawImage(picArray[picNum+8*step], xloc, yloc, Color.gray, this);
       }
       
