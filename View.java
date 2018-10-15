@@ -21,20 +21,26 @@
  import javax.swing.AbstractAction;
  import javax.swing.Action;
  import javax.swing.Timer;
- import javax.swing.JButton;
+
+import org.omg.PortableInterceptor.ACTIVE;
+
+import javax.swing.JButton;
  import javax.swing.ImageIcon;
  import java.awt.event.ActionListener;
  import java.awt.GridLayout;
 
 
  public class View extends JFrame{
-   private final int frameCount = 10;
+   private final int frameCount = Act.FORWARD.getNumPics();
    private int picNum = 0;
    final static int frameWidth = 500;
    final static int frameHeight = 300;
    final static int imgWidth = 165;
    final static int imgHeight = 165;
-   private BufferedImage[] pics;
+   BufferedImage[] forwardPics;
+   BufferedImage[] jumpPics;
+   BufferedImage[] firePics;
+   private BufferedImage[] picArray = forwardPics;
    ImageIcon stopicon = createImageIcon("images/icons/stop.png");
    ImageIcon diricon = createImageIcon("images/icons/diricon.png");
    GridLayout layout = new GridLayout(1,2);
@@ -42,6 +48,7 @@
    private int xloc = 0;
    private int yloc = 0;
    private Direction d;
+   private Act action = Act.FORWARD;
    private int go = 1;
 
    public View(){
@@ -90,14 +97,27 @@
 
 
      int numpics = 8; //number of images
-     pics = new BufferedImage[numpics*10]; //modified array to fit all pictures
+     forwardPics = new BufferedImage[numpics*Act.FORWARD.getNumPics()]; //modified array to fit all pictures
      for(int i = 0; i<numpics; i++){
-       BufferedImage img = createImage(i);
-       for(int j = 0; j < frameCount; j++){
-         pics[(i*10)+j] = img.getSubimage(imgWidth*j, 0, imgWidth, imgHeight);
+       BufferedImage img = createImage(i, Act.FORWARD.getName());
+       for(int j = 0; j < Act.FORWARD.getNumPics(); j++){
+         forwardPics[(i*Act.FORWARD.getNumPics())+j] = img.getSubimage(imgWidth*j, 0, imgWidth, imgHeight);
        }
      }
-
+     jumpPics = new BufferedImage[numpics*Act.JUMP.getNumPics()]; //modified array to fit all pictures
+     for(int i = 0; i<numpics; i++){
+       BufferedImage img = createImage(i, Act.JUMP.getName());
+       for(int j = 0; j < Act.JUMP.getNumPics(); j++){
+         jumpPics[(i*Act.JUMP.getNumPics())+j] = img.getSubimage(imgWidth*j, 0, imgWidth, imgHeight);
+       }
+     }
+     firePics = new BufferedImage[numpics*Act.FIRE.getNumPics()]; //modified array to fit all pictures
+     for(int i = 0; i<numpics; i++){
+       BufferedImage img = createImage(i, Act.FIRE.getName());
+       for(int j = 0; j < Act.FIRE.getNumPics(); j++){
+         firePics[(i*Act.FIRE.getNumPics())+j] = img.getSubimage(imgWidth*j, 0, imgWidth, imgHeight);
+       }
+     }
    }
 /*
    int getWidth(){
@@ -132,40 +152,46 @@
    int getGo(){
      return this.go;
    }
-   private BufferedImage createImage(int picnum){
+   Act getAction() {
+	   return action;
+   }
+   void setAction(Act a) {
+	   this.action = a;
+   }
+   private BufferedImage createImage(int picnum, String a){
   //function now takes an int which changes the picture it reads in
     BufferedImage bufferedImage;
     try {
     if(picnum == 0) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_southeast.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_southeast.png"));
         return bufferedImage;
     }
     else if(picnum == 1) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_northwest.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_northwest.png"));
         return bufferedImage;
     }
     else if(picnum == 2) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_northeast.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_northeast.png"));
         return bufferedImage;
     }
     else if(picnum == 3) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_southwest.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_southwest.png"));
         return bufferedImage;
     }
     else if(picnum == 4) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_east.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_east.png"));
         return bufferedImage;
     }
     else if(picnum == 5) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_south.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_south.png"));
         return bufferedImage;
     }
     else if(picnum == 6) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_west.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_west.png"));
         return bufferedImage;
     }
     else if(picnum == 7) {
-        bufferedImage = ImageIO.read(new File("images/orc/orc_forward_north.png"));
+        bufferedImage = ImageIO.read(new File("images/orc/orc_"+a+"_north.png"));
         return bufferedImage;
     }
     } catch (IOException e) {
@@ -196,31 +222,46 @@
   public void paint(Graphics g){
     if(go == 1){
       super.paint(g);
-      picNum = (picNum + 1) % frameCount;
+      picNum = (picNum + 1) % action.getNumPics();
+      int step = 0;
+      if(action==Act.FORWARD) {
+    	  picArray = forwardPics;
+    	  step = Act.FORWARD.getNumPics();
+      }
+      else if(action==Act.JUMP) {
+    	  picArray = jumpPics;
+    	  step = Act.JUMP.getNumPics();
+      }
+      else if(action==Act.FIRE) {
+    	  picArray = firePics;
+    	  step = Act.FIRE.getNumPics();
+      }
+      
       if(d.getName() == "southeast"){
-        g.drawImage(pics[picNum+0], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "northwest"){
-        g.drawImage(pics[picNum+10], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+2*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "northeast"){
-        g.drawImage(pics[picNum+20], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+3*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "southwest"){
-        g.drawImage(pics[picNum+30], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+4*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "east"){
-        g.drawImage(pics[picNum+40], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+5*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "west"){
-        g.drawImage(pics[picNum+50], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+6*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "south"){
-        g.drawImage(pics[picNum+60], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+7*step], xloc, yloc, Color.gray, this);
       }
       else if(d.getName() == "north"){
-        g.drawImage(pics[picNum+70], xloc, yloc, Color.gray, this);
+        g.drawImage(picArray[picNum+8*step], xloc, yloc, Color.gray, this);
       }
+      
     }
   }
     private static ImageIcon createImageIcon(String path) {

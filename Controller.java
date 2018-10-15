@@ -22,18 +22,22 @@ public class Controller {
 				if(event.getKeyCode() == KeyEvent.VK_J){
 					jump = 1;
 					System.out.println("jumped");
+					view.setAction(Act.JUMP);
 				}
 				else if(event.getKeyCode() == KeyEvent.VK_F){
 					fire = 1;
+					view.setAction(Act.FIRE);
 				}
 			}
 			@Override
 			public void keyReleased(KeyEvent event){
 				if(event.getKeyCode() == KeyEvent.VK_J){
 					jump = 0;
+					view.setAction(Act.FORWARD);
 				}
 				else if(event.getKeyCode() == KeyEvent.VK_F){
 					fire = 0;
+					view.setAction(Act.FORWARD);
 				}
 			}
 			@Override
