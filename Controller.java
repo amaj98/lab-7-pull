@@ -24,8 +24,8 @@ public class Controller {
 		MouseListener mouseinput = new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent event){
-				mX = event.getX()/view.getWidth();
-				mY = event.getY()/view.getHeight();
+				mX = event.getX();
+				mY = event.getY();
 
 				x = model.getX();
 				y = model.getY();
