@@ -60,78 +60,92 @@ public class Model{
   }
 
   public void updateLocationAndDirection(){
-    if(action==Act.FORWARD || action==Act.JUMP){
+    if((action==Act.FORWARD || action==Act.JUMP) && go == 1){
       //System.out.println("x:" + xloc);
       //System.out.println("y:" + yloc);
-      if(xIncr>0 && yIncr>0){
-        if(d.getName() == "southwest"){
-          xloc-=xIncr;
-          yloc+=yIncr;
-          if(xloc < 0){
-            d = Direction.SOUTHEAST;
-          }
-          else if(yloc > frameHeight){
-            d = Direction.NORTHWEST;
-          }
+      if(xloc<0){
+        if(d.getName() == "west"){
+          d = Direction.EAST;
         }
         else if(d.getName() == "northwest"){
-          xloc-=xIncr;
-          yloc-=yIncr;
-          if(xloc < 0){
-            d = Direction.NORTHEAST;
-          }
-          else if(yloc < 0){
-            d = Direction.SOUTHWEST;
-          }
+          d = Direction.NORTHEAST;
         }
-        else if(d.getName() == "southeast"){
-          xloc+=xIncr;
-          yloc+=yIncr;
-          if(xloc > frameWidth){
-            d = Direction.SOUTHWEST;
-          }
-          else if(yloc > frameHeight){
-            d = Direction.NORTHEAST;
-          }
+        else if(d.getName() == "southwest"){
+          d = Direction.SOUTHEAST;
+        }
+      }
+
+      else if(xloc > frameWidth){
+        if(d.getName() == "east"){
+          d = Direction.WEST;
         }
         else if(d.getName() == "northeast"){
-          xloc+=xIncr;
-          yloc-=yIncr;
-          if(xloc > frameWidth){
-            d = Direction.NORTHWEST;
-          }
-          else if(yloc < 0){
-            d = Direction.SOUTHEAST;
-          }
+          d = Direction.NORTHWEST;
+        }
+        else if(d.getName() == "southeast"){
+          d = Direction.SOUTHWEST;
         }
       }
-      else if(xIncr == 0 && yIncr>0){
-        if(yloc <= 0){
+
+      else if(yloc < 0){
+        if(d.getName() == "north"){
           d = Direction.SOUTH;
-          xloc+=xIncr;
           yloc+=yIncr;
         }
-        else if(yloc > frameHeight){
-          d = Direction.NORTH;
+        else if(d.getName() == "northwest"){
+          d = Direction.SOUTHWEST;
           xloc+=xIncr;
           yloc-=yIncr;
         }
-      }
-      else if(yIncr == 0 && xIncr>0){
-        if(xloc <= 0){
-          d = Direction.EAST;
-          xloc+=xIncr;
-          yloc+=yIncr;
-        }
-        else if(xloc > frameWidth){
-          d = Direction.WEST;
-          xloc-=xIncr;
-          yloc+=yIncr;
+        else if(d.getName() == "northeast"){
+          d = Direction.SOUTHEAST;
         }
       }
+
+      else if(yloc > frameHeight){
+        if(d.getName() == "south"){
+          d = Direction.NORTH;
+        }
+        else if(d.getName() == "southwest"){
+          d = Direction.NORTHWEST;
+        }
+        else if(d.getName() == "southeast"){
+          d = Direction.NORTHEAST;
+        }
+      }
+      move();
+    }
+}
+  void move(){
+    if(d.getName() == "north"){
+      yloc-=yIncr;
+    }
+    else if(d.getName() == "south"){
+      yloc+=yIncr;
+    }
+    else if(d.getName() == "east"){
+      xloc+=xIncr;
+    }
+    else if(d.getName() == "west"){
+      xloc-=yIncr;
+    }
+    else if(d.getName() == "southeast"){
+      xloc+=xIncr;
+      yloc+=yIncr;
+    }
+    else if(d.getName() == "southwest"){
+      xloc-=xIncr;
+      yloc+=yIncr;
+    }
+    else if(d.getName() == "northeast"){
+      xloc+=xIncr;
+      yloc-=yIncr;
+    }
+    else if(d.getName() == "northwest"){
+      xloc-=xIncr;
+      yloc-=yIncr;
     }
   }
-
   void setAction(Act a) {
 	  this.action = a;
   }

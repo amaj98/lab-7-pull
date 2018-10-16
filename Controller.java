@@ -4,6 +4,8 @@
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Controller {
 
@@ -13,15 +15,35 @@ public class Controller {
 	private Direction d;
 	private int jump = 0;
 	private int fire = 0;
+	private int mX = 0;
+	private int mY = 0;
+	private int x;
+	private int y;
 
 	public Controller(){
+		MouseListener mouseinput = new MouseListener(){
+			@Override
+			public void mouseClicked(MouseEvent event){
+				mX = event.getX()/view.getWidth();
+				mY = event.getY()/view.getHeight();
 
-		KeyListener input = new KeyListener(){
+				x = model.getX();
+				y = model.getY();
+
+				System.out.println("x="+x+" y="+y);
+				System.out.println("mx="+mX+" my="+mY);
+			}
+			public void mousePressed(MouseEvent event){}
+			public void mouseReleased(MouseEvent event){}
+			public void mouseEntered(MouseEvent event){}
+			public void mouseExited(MouseEvent event){}
+		};
+		KeyListener keyinput = new KeyListener(){
 			@Override
 			public void keyPressed(KeyEvent event){
 				if(event.getKeyCode() == KeyEvent.VK_J){
 					jump = 1;
-					System.out.println("jumped");
+					//System.out.println("jumped");
 					view.setAction(Act.JUMP);
 					model.setAction(Act.JUMP);
 				}
@@ -50,7 +72,8 @@ public class Controller {
 			}
 		};
 		view = new View();
-		view.addKeyListener(input);
+		view.addKeyListener(keyinput);
+		view.addMouseListener(mouseinput);
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
 	}
 
@@ -64,8 +87,6 @@ public class Controller {
 			model.setDirect(d);
 			model.setGo(go);
 			model.updateLocationAndDirection();
-			//System.out.println(model.getGo());
-			//System.out.println(go);
 			view.update(model.getX(), model.getY(), model.getDirect(),model.getGo());
 		}
 	}
